@@ -2,6 +2,15 @@
     var gui = require('nw.gui');
     var io = require('socket.io')();
 
+    var argv = require('optimist')(gui.App.argv)
+    .default('h', 'localhost')
+    .default('p', 3000)
+    .alias('p', 'port')
+    .alias('h', 'host')
+    .describe('h', 'Server hostname')
+    .describe('p', 'Server port')
+    .argv;
+
     io.on('connection', function(socket) {
         console.log('client connected');
 
@@ -10,7 +19,7 @@
         });
     });
 
-    io.listen(3000);
+    io.listen(('%s:%s', argv.host, argv.port));
 
     function openUrl(options, done) {
         var url = options.url;
