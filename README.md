@@ -7,3 +7,5 @@ Chromiumpos is written in [node-webkit](https://github.com/rogerwang/node-webkit
 To build the app you need [node-webkit](https://github.com/rogerwang/node-webkit) installed in your $PATH, npm and node. You can download prebuild node-webkit for your architecture or install it from your package manager.
 
 npm and node are easy, just install them from your package manager.
+
+After you have all required software to build the package just run `make build` this will build the app for Linux 32/64, OSX and Windows in `./nw-build/nw-app/`.
