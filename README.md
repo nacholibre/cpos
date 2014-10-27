@@ -1,5 +1,5 @@
 ##Introduction
-With Chromiumpos you can measure page load time with all resources and rendering. You can also take screenshots of the loaded pages. SocketIO is used for server which means the client can be browser for example.
+With Chromiumpos you can measure the actual load time users are experiencing for URL (this includes all resources - images, javascript etc and rendering time). You can also take screenshots of the loaded pages. SocketIO is used for server which means the client can be browser for example.
 
 Chromiumpos is written in [node-webkit](https://github.com/rogerwang/node-webkit).
 
