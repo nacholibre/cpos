@@ -43,6 +43,11 @@ available `options` are
 - capture: return screenshot as base64 encoded string (default: false)
 - timeout: max timeout in seconds when opening url (default: 15 seconds)
 
+callback is called with
+- pageLoadTimeMS: page load time in milliseconds
+- screenshot: base64 encoded screenshot of the loaded page (only if capture is set to true)
+- loaded: True or False, false can be if the timeout is reached
+
 `openUrl` opens new tab in Chromium and after page has loaded the tab is closed and the callback is executed, which means you can open pages in parallel.
 
 You can use [node async](https://github.com/caolan/async) to limit max parallel tasks.
