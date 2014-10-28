@@ -1,20 +1,20 @@
 {
-  "name": "chromiumpos",
-  "description": "",
-  "version": "0.0.1",
-  "devDependencies": {
-    "async": "^0.9.0",
-    "chai": "^1.9.2",
-    "chai-as-promised": "^4.1.1",
-    "express": "^4.10.0",
-    "mocha": "^2.0.1",
-    "node-webkit-builder": "^0.1.4",
-    "nodewebkit": "^0.10.5",
-    "should": "^4.1.0",
-    "socket.io-client": "^1.2.0"
-  },
-  "scripts": {
-    "test": "./node_modules/mocha/bin/mocha tests.js; killall nw",
-    "postinstall": "sed -i 's/udev.so.0/udev.so.1/g' ./node_modules/nodewebkit/nodewebkit/nw"
-  }
+    "name": "chromiumpos",
+    "description": "",
+    "version": "0.0.1",
+    "devDependencies": {
+        "async": "^0.9.0",
+        "chai": "^1.9.2",
+        "chai-as-promised": "^4.1.1",
+        "express": "^4.10.0",
+        "mocha": "^2.0.1",
+        "node-webkit-builder": "^0.1.4",
+        "nodewebkit": "^0.10.5",
+        "should": "^4.1.0",
+        "socket.io-client": "^1.2.0"
+    },
+    "scripts": {
+        "test": "./node_modules/mocha/bin/mocha tests.js; killall nw",
+        "postinstall": "sed -i 's/udev.so.0/udev.so.1/g' ./node_modules/nodewebkit/nodewebkit/nw"
+    }
 }
