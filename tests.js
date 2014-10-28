@@ -26,7 +26,7 @@
 
     app.listen(8080);
 
-    var screenshotServer = spawn('xvfb-run', ['-a', 'nw', 'nw-app']);
+    var screenshotServer = spawn('xvfb-run', ['-a', './node_modules/nodewebkit/nodewebkit/nw', 'nw-app']);
 
     screenshotServer.stdout.on('data', function (data) {
         console.log('nw-app stdout: ' + data);
