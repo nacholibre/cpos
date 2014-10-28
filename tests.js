@@ -24,6 +24,7 @@
         }, seconds*1000);
     });
 
+    app.listen(8080);
 
     describe('ChromiumPOS', function() {
         this.timeout(60000);
@@ -33,26 +34,29 @@
 
             screenshotServer.stdout.on('data', function (data) {
                 console.log('nw-app stdout: ' + data);
+
+                if (data.toString().indexOf('APPINIT') !== -1) {
+                    //APPINIT is actually a console.log('APPINIT') from the
+                    //node webkit application. We found it in stdout meaning
+                    //the application has started and its ready
+                    done();
+                }
             });
 
             screenshotServer.stderr.on('data', function (data) {
                 console.log('nw-app stderr: ' + data);
             });
-
-            app.listen(8080, function() {
-                done();
-            });
         });
 
         after(function() {
-            spawn('killall', ['nw']);
+            spawn('killall', ['nw', 'xvfb']);
         });
 
         it('should openURL and return data', function(done) {
             var client = io.connect(socketURL, options);
             client.on('connect', function() {
                 client.emit('openURL', {url: 'http://localhost:8080/load_for/1'}, function(data) {
-                    expect(data.pageLoadTimeMS).to.be.within(1000, 2000);
+                    expect(data.pageLoadTimeMS).to.be.within(1000, 1500);
                     done();
                 });
             });
