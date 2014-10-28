@@ -89,7 +89,6 @@
                     expect(endedFor).to.be.within(2000, 2400);
                     done();
                 });
-
             });
         });
     });
