@@ -43,8 +43,7 @@
             var client = io.connect(socketURL, options);
             client.on('connect', function() {
                 client.emit('openURL', {url: 'http://localhost:8080/load_for/1'}, function(data) {
-                    expect(data.pageLoadTimeMS).to.be.above(1000);
-                    expect(data.pageLoadTimeMS).not.to.be.above(1200);
+                    expect(data.pageLoadTimeMS).to.be.within(1000, 2000);
                     done();
                 });
             });
@@ -71,12 +70,12 @@
                 async.parallel([
                 function(fDone) {
                     client.emit('openURL', {url: 'http://localhost:8080/load_for/1'}, function(data) {
-                        expect(data.pageLoadTimeMS).to.be.within(1000, 1200);
+                        expect(data.pageLoadTimeMS).to.be.within(1000, 1500);
                         fDone();
                     });
                 }, function(fDone) {
                     client.emit('openURL', {url: 'http://localhost:8080/load_for/2'}, function(data) {
-                        expect(data.pageLoadTimeMS).to.be.within(2000, 2200);
+                        expect(data.pageLoadTimeMS).to.be.within(2000, 2500);
                         fDone();
                     });
                 }, function(fDone) {
@@ -86,7 +85,7 @@
                     });
                 }], function() {
                     var endedFor = new Date().valueOf() - started.valueOf();
-                    expect(endedFor).to.be.within(2000, 2400);
+                    expect(endedFor).to.be.within(2000, 3000);
                     done();
                 });
             });
