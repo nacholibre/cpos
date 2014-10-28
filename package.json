@@ -14,6 +14,6 @@
         "socket.io-client": "^1.2.0"
     },
     "scripts": {
-        "test": "./node_modules/mocha/bin/mocha tests.js; killall nw"
+        "test": "./node_modules/mocha/bin/mocha tests.js"
     }
 }

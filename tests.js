@@ -26,18 +26,24 @@
 
     app.listen(8080);
 
-    var screenshotServer = spawn('xvfb-run', ['-a', './node_modules/nodewebkit/nodewebkit/nw', 'nw-app']);
-
-    screenshotServer.stdout.on('data', function (data) {
-        console.log('nw-app stdout: ' + data);
-    });
-
-    screenshotServer.stderr.on('data', function (data) {
-        console.log('nw-app stderr: ' + data);
-    });
-
     describe('ChromiumPOS', function() {
         this.timeout(60000);
+
+        before(function() {
+            var screenshotServer = spawn('xvfb-run', ['-a', './node_modules/nodewebkit/nodewebkit/nw', 'nw-app']);
+
+            screenshotServer.stdout.on('data', function (data) {
+                console.log('nw-app stdout: ' + data);
+            });
+
+            screenshotServer.stderr.on('data', function (data) {
+                console.log('nw-app stderr: ' + data);
+            });
+        });
+
+        after(function() {
+            spawn('killall', ['nw']);
+        });
 
         it('should openURL and return data', function(done) {
             var client = io.connect(socketURL, options);
