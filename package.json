@@ -14,7 +14,6 @@
         "socket.io-client": "^1.2.0"
     },
     "scripts": {
-        "test": "./node_modules/mocha/bin/mocha tests.js; killall nw",
-        "postinstall": "sed -i 's/udev.so.0/udev.so.1/g' ./node_modules/nodewebkit/nodewebkit/nw"
+        "test": "./node_modules/mocha/bin/mocha tests.js; killall nw"
     }
 }
