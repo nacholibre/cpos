@@ -1,3 +1,7 @@
 language: node_js
 node_js:
     - "0.10"
+before_script:
+    - sudo apt-get -qq update
+    - sudo apt-get -y install libx11-6:i386;
+    - sudo apt-get -y install libudev0:i386;
