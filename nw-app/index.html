@@ -29,7 +29,8 @@
         var capture = options.capture || false;
         var timeout = options.timeout || 15;
 
-        console.log(capture);
+        var loaded = false;
+        var loadingStartedAt = new Date();
 
         var win = gui.Window.open(url, {
             width: width,
@@ -39,24 +40,14 @@
             toolbar: true
         });
 
-        var startedLoading = false;
-        var loaded = false;
-        var loadingStartedAt;
-
-        win.on('document-start', function() {
-            if (startedLoading === false) {
-                startedLoading = true;
-                loadingStartedAt = new Date();
-            }
-        });
-
-        var returnedData = {'pageLoadTimeMS': null, 'screenshot': null, 'loaded': false};
-
         var timeouted = setTimeout(function() {
             win.close();
         }, timeout * 1000);
 
+        var returnedData = {'pageLoadTimeMS': null, 'screenshot': null, 'loaded': false};
+
         win.on('loaded', function() {
+            console.log('loaded');
             returnedData.loaded = true;
 
             // sometimes loaded event is triggered more than once for no reason
@@ -64,6 +55,7 @@
                 clearTimeout(timeouted);
 
                 loaded = true;
+                console.log('end');
                 var loadTimeMilliseconds = new Date().valueOf() - loadingStartedAt.valueOf();
                 //document.getElementById('data').innerHTML = 'loaded ' + loadTimeMilliseconds;
                 returnedData.pageLoadTimeMS = loadTimeMilliseconds;
