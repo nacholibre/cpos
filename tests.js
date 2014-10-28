@@ -39,7 +39,7 @@
     describe('ChromiumPOS', function() {
         this.timeout(60000);
 
-        it('should request opening and return data', function(done) {
+        it('should openURL and return data', function(done) {
             var client = io.connect(socketURL, options);
             client.on('connect', function() {
                 client.emit('openURL', {url: 'http://localhost:8080/load_for/1'}, function(data) {
@@ -50,7 +50,7 @@
             });
         });
 
-        it('should request slow opening and return timeouted', function(done) {
+        it('should hit the timeout', function(done) {
             var client = io.connect(socketURL, options);
 
             client.on('connect', function() {
@@ -62,7 +62,7 @@
             });
         });
 
-        it('should open pages in parallel', function(done) {
+        it('should open urls in parallel', function(done) {
             var client = io.connect(socketURL, options);
 
             client.on('connect', function() {
