@@ -24,12 +24,11 @@
         }, seconds*1000);
     });
 
-    app.listen(8080);
 
     describe('ChromiumPOS', function() {
         this.timeout(60000);
 
-        before(function() {
+        before(function(done) {
             var screenshotServer = spawn('xvfb-run', ['-a', './node_modules/nodewebkit/nodewebkit/nw', 'nw-app']);
 
             screenshotServer.stdout.on('data', function (data) {
@@ -38,6 +37,10 @@
 
             screenshotServer.stderr.on('data', function (data) {
                 console.log('nw-app stderr: ' + data);
+            });
+
+            app.listen(8080, function() {
+                done();
             });
         });
 
