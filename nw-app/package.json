@@ -2,9 +2,5 @@
   "name": "nw-app",
   "description": "node webkit app used to be the actual browser",
   "version": "0.0.1",
-  "main": "index.html",
-  "devDependencies": {
-    "optimist": "^0.6.1",
-    "socket.io": "^1.1.0"
-  }
+  "main": "index.html"
 }

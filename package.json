@@ -1,7 +1,7 @@
 {
   "name": "cpos",
   "description": "Chromium page opener server",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "main": "cpos.js",
   "dependencies": {
     "async": "^0.9.0",
@@ -11,8 +11,10 @@
     "mocha": "^2.0.1",
     "node-webkit-builder": "^0.1.4",
     "nodewebkit": "^0.10.5",
+    "optimist": "^0.6.1",
     "ps-tree": "0.0.3",
     "should": "^4.1.0",
+    "socket.io": "^1.2.0",
     "socket.io-client": "^1.2.0"
   },
   "repository": {
@@ -20,10 +22,10 @@
     "url": "git://github.com/nacholibre/cpos.git"
   },
   "keywords": [
-      "take url screenshots",
-      "measure page load time",
-      "url load time",
-      "chromium screenshots"
+    "take url screenshots",
+    "measure page load time",
+    "url load time",
+    "chromium screenshots"
   ],
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha tests.js"
