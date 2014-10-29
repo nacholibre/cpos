@@ -22,10 +22,11 @@
     "url": "git://github.com/nacholibre/cpos.git"
   },
   "keywords": [
-    "take url screenshots",
-    "measure page load time",
-    "url load time",
-    "chromium screenshots"
+    "screenshot",
+    "node-webkit",
+    "socketio",
+    "server",
+    "chromium"
   ],
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha tests.js"
