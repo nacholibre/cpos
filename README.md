@@ -13,7 +13,7 @@ Install it with `npm install cpos`
 ```javascript
 'use strict';
 
-var cpos = require('../cpos.js');
+var cpos = require('cpos');
 var io = require('socket.io-client');
 
 var chromiumServer = new cpos.Server();
