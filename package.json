@@ -1,7 +1,7 @@
 {
   "name": "cpos",
   "description": "Chromium page opener server",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "cpos.js",
   "dependencies": {
     "async": "^0.9.0",
