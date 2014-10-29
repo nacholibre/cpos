@@ -9,8 +9,12 @@
         this.pids = [];
     }
 
-    Server.prototype.end = function() {
+    Server.prototype.close = function() {
         if (this.screenshotServer) {
+            this.screenshotServer.removeListener('data', this.onData);
+            process.removeListener('exit', this.onEnd);
+            process.removeListener('uncaughtException', this.onEnd);
+
             this.pids.forEach(function(pid) {
                 process.kill(pid);
             });
@@ -38,10 +42,11 @@
                                      __dirname + '/node_modules/nodewebkit/nodewebkit/nw',
                                      __dirname + '/nw-app',
                                      '-p ' + port,
-                                     '-h ' + host]);
+                                     '-h ' + host,
+                                     '-screen 0 2048x2048x32']);
 
 
-        this.screenshotServer.stdout.on('data', function (data) {
+        this.onData = function (data) {
             if (data.toString().indexOf('APPINIT') !== -1) {
                 //APPINIT is actually a console.log('APPINIT') from the
                 //node webkit application. We found it in stdout meaning
@@ -53,15 +58,16 @@
                     callback();
                 }
             }
-        });
+        };
 
-        process.once('exit', function() {
-            self.end();
-        });
+        this.screenshotServer.stdout.on('data', this.onData);
 
-        process.once('uncaughtException', function() {
-            self.end();
-        });
+        this.onEnd = function() {
+            self.close();
+        };
+
+        process.once('exit', this.onEnd);
+        process.once('uncaughtException', this.onEnd);
     };
 
     module.exports = {
