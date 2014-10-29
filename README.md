@@ -41,7 +41,7 @@ Starts the node-webkit Chromium app using xvfb-run. The app itself starts socket
 `callback` is called when the applications is ready to receive openURL requests.
 ####server.close()
 Terminates the server.
-####socket.emit('openUrl', options, callback);
+####socket.emit('openURL', options, callback);
 available `options` are 
 - url: url for opening
 - width: window width (default: 1280)
@@ -54,6 +54,6 @@ callback is called with
 - screenshot: base64 encoded screenshot of the loaded page (only if capture is set to true)
 - loaded: True or False, false can be if the timeout is reached
 
-`openUrl` opens new tab in Chromium and after page has loaded the tab is closed and the callback is executed, which means you can open pages in parallel.
+`openURL` opens new tab in Chromium and after page has loaded the tab is closed and the callback is executed, which means you can open pages in parallel.
 
 You can use [node async](https://github.com/caolan/async) to limit max parallel tasks.
