@@ -1,42 +1,47 @@
 [![Build Status](https://travis-ci.org/nacholibre/cpos.svg?branch=master)](https://travis-ci.org/nacholibre/cpos)
 ##Introduction
-With Chromiumpos you can measure the actual load time users are experiencing for URL (this includes all resources - images, javascript etc and rendering time). You can also take screenshots of the loaded pages. SocketIO is used for server which means the client can be browser for example.
+With `cpos` you can start Chromium browser with socketIO server and emit messages from any socketIO client (browser for example) to open specific URL and return some data back like page load time or page screenshot.
 
-Chromiumpos is written in [node-webkit](https://github.com/rogerwang/node-webkit).
+`cpos` uses [node-webkit](https://github.com/rogerwang/node-webkit).
+
+Install it with `npm install cpos`
 
 ##Usage
-####Building the app
-To build the app you need [node-webkit](https://github.com/rogerwang/node-webkit) installed in your $PATH, npm and node. You can download prebuild node-webkit for your architecture or install it from your package manager.
+`cpos` requires libuv0 and xvfb-run. If you don't have libuv0, you can symlink libuv0 to libuv1. Example in Arch Linux: `sudo ln -s /usr/lib/libudev.so /usr/lib/libudev.so.0`
 
-npm and node are easy, just install them from your package manager.
-
-After you have all required software to build the package just run `make build` this will build the app for Linux 32/64, OSX and Windows in `./nw-build/nw-app/`.
-
-####Running the app
-After the app is compiled run `./nw-build/nw-app/linux64/nw-app -h 127.0.0.1 -p 3000`. This will run the application and the socketIO server on 127.0.0.0:3000.
-
-nw-app requires visual environment to run, if you run it on linux server you can use xvfb (X Virtual Frame Buffer). 
-
-Example:
-```xvfb-run -a ./nw-build/nw-app/linux64/nw-app -h 127.0.0.1 -p 3000```
-
-Here is simple client example written in node
+####Example
 ```javascript
 'use strict';
 
-var socket = require('socket.io-client')('http://localhost:3000');
+var cpos = require('cpos');
+var io = require('socket.io-client');
 
-socket.on('connect', function() {
-    socket.emit('openURL', {url: 'http://ebay.co.uk'}, function(data) {
-        console.log(data);
+var chromiumServer = new cpos.Server();
+
+chromiumServer.listen(3000, 'localhost', function() {
+    console.log('Chromium browser socketIO server has started');
+
+    var client = io.connect('http://localhost:3000');
+    client.on('connect', function() {
+
+        client.emit('openURL', {'url': 'http://google.com'}, function(data) {
+            console.log('Google takes %s milliseconds to load', data.pageLoadTimeMS);
+
+            client.close();
+            chromiumServer.close();
+        });
     });
 });
 ```
-returns
-```{ pageLoadTimeMS: 1998, screenshot: null, loaded: true }```
-
 ##API
-###socket.emit('openUrl', options, callback);
+###Class: cpos.Server
+####server.listen(port, hostname, [callback])
+Starts the node-webkit Chromium app using xvfb-run. The app itself starts socket.io server listening for `openURL` messages.
+
+`callback` is called when the applications is ready to receive openURL requests.
+####server.close()
+Terminates the server.
+####socket.emit('openURL', options, callback);
 available `options` are 
 - url: url for opening
 - width: window width (default: 1280)
@@ -49,6 +54,6 @@ callback is called with
 - screenshot: base64 encoded screenshot of the loaded page (only if capture is set to true)
 - loaded: True or False, false can be if the timeout is reached
 
-`openUrl` opens new tab in Chromium and after page has loaded the tab is closed and the callback is executed, which means you can open pages in parallel.
+`openURL` opens new tab in Chromium and after page has loaded the tab is closed and the callback is executed, which means you can open pages in parallel.
 
 You can use [node async](https://github.com/caolan/async) to limit max parallel tasks.
