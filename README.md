@@ -7,36 +7,32 @@ With `cpos` you can start Chromium browser with socketIO server and emit message
 Install it with `npm install cpos`
 
 ##Usage
-####Building the app
-To build the app you need [node-webkit](https://github.com/rogerwang/node-webkit) installed in your $PATH, npm and node. You can download prebuild node-webkit for your architecture or install it from your package manager.
+`cpos` requires libuv0. If you don't have libuv0, you can symlink libuv0 to libuv1. Example in Arch Linux: `sudo ln -s /usr/lib/libudev.so /usr/lib/libudev.so.0`
 
-npm and node are easy, just install them from your package manager.
-
-After you have all required software to build the package just run `make build` this will build the app for Linux 32/64, OSX and Windows in `./nw-build/nw-app/`.
-
-####Running the app
-After the app is compiled run `./nw-build/nw-app/linux64/nw-app -h 127.0.0.1 -p 3000`. This will run the application and the socketIO server on 127.0.0.0:3000.
-
-nw-app requires visual environment to run, if you run it on linux server you can use xvfb (X Virtual Frame Buffer). 
-
-Example:
-```xvfb-run -a ./nw-build/nw-app/linux64/nw-app -h 127.0.0.1 -p 3000```
-
-Here is simple client example written in node
+####Example
 ```javascript
 'use strict';
 
-var socket = require('socket.io-client')('http://localhost:3000');
+var cpos = require('../cpos.js');
+var io = require('socket.io-client');
 
-socket.on('connect', function() {
-    socket.emit('openURL', {url: 'http://ebay.co.uk'}, function(data) {
-        console.log(data);
+var chromiumServer = new cpos.Server();
+
+chromiumServer.listen(3000, 'localhost', function() {
+    console.log('Chromium browser socketIO server has started');
+
+    var client = io.connect('http://localhost:3000');
+    client.on('connect', function() {
+
+        client.emit('openURL', {'url': 'http://google.com'}, function(data) {
+            console.log('Google takes %s milliseconds to load', data.pageLoadTimeMS);
+
+            client.close();
+            chromiumServer.close();
+        });
     });
 });
 ```
-returns
-```{ pageLoadTimeMS: 1998, screenshot: null, loaded: true }```
-
 ##API
 ###socket.emit('openUrl', options, callback);
 available `options` are 
