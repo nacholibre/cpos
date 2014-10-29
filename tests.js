@@ -3,10 +3,13 @@
 
     var express = require('express');
     var io = require('socket.io-client');
-    var spawn = require('child_process').spawn;
     var async = require('async');
     var chai = require('chai');
     var expect = chai.expect;
+
+    var cpos = require('./cpos.js');
+
+    var chromiumServer = new cpos.Server();
 
     var app = express();
 
@@ -21,35 +24,16 @@
 
         setTimeout(function() {
             res.send('Hello!');
-        }, seconds*1000);
+        }, seconds * 1000);
     });
 
     app.listen(8080);
 
     describe('ChromiumPOS', function() {
-        this.timeout(60000);
+        this.timeout(10000);
 
         before(function(done) {
-            var screenshotServer = spawn('xvfb-run', ['-a', './node_modules/nodewebkit/nodewebkit/nw', 'nw-app']);
-
-            screenshotServer.stdout.on('data', function (data) {
-                console.log('nw-app stdout: ' + data);
-
-                if (data.toString().indexOf('APPINIT') !== -1) {
-                    //APPINIT is actually a console.log('APPINIT') from the
-                    //node webkit application. We found it in stdout meaning
-                    //the application has started and its ready
-                    done();
-                }
-            });
-
-            screenshotServer.stderr.on('data', function (data) {
-                console.log('nw-app stderr: ' + data);
-            });
-        });
-
-        after(function() {
-            spawn('killall', ['nw', 'xvfb']);
+            chromiumServer.listen(3000, 'localhost', done);
         });
 
         it('should openURL and return data', function(done) {
