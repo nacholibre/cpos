@@ -34,7 +34,14 @@ chromiumServer.listen(3000, 'localhost', function() {
 });
 ```
 ##API
-###socket.emit('openUrl', options, callback);
+###Class: cpos.Server
+####server.listen(port, hostname, [callback])
+Starts the node-webkit Chromium app using xvfb-run. The app itself starts socket.io server listening for `openURL` messages.
+
+`callback` is called when the applications is ready to receive openURL requests.
+####server.close()
+Terminates the server.
+####socket.emit('openUrl', options, callback);
 available `options` are 
 - url: url for opening
 - width: window width (default: 1280)
