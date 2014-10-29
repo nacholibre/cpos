@@ -1,8 +1,10 @@
 [![Build Status](https://travis-ci.org/nacholibre/cpos.svg?branch=master)](https://travis-ci.org/nacholibre/cpos)
 ##Introduction
-With Chromiumpos you can measure the actual load time users are experiencing for URL (this includes all resources - images, javascript etc and rendering time). You can also take screenshots of the loaded pages. SocketIO is used for server which means the client can be browser for example.
+With `cpos` you can start Chromium browser with socketIO server and emit messages from any socketIO client (browser for example) to open specific URL and return some data back like page load time or page screenshot.
 
-Chromiumpos is written in [node-webkit](https://github.com/rogerwang/node-webkit).
+`cpos` uses [node-webkit](https://github.com/rogerwang/node-webkit).
+
+Install it with `npm install cpos`
 
 ##Usage
 ####Building the app
