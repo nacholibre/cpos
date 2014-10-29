@@ -7,7 +7,7 @@ With `cpos` you can start Chromium browser with socketIO server and emit message
 Install it with `npm install cpos`
 
 ##Usage
-`cpos` requires libuv0. If you don't have libuv0, you can symlink libuv0 to libuv1. Example in Arch Linux: `sudo ln -s /usr/lib/libudev.so /usr/lib/libudev.so.0`
+`cpos` requires libuv0 and xvfb-run. If you don't have libuv0, you can symlink libuv0 to libuv1. Example in Arch Linux: `sudo ln -s /usr/lib/libudev.so /usr/lib/libudev.so.0`
 
 ####Example
 ```javascript
