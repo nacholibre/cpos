@@ -36,7 +36,7 @@
         this.screenshotServer = spawn('xvfb-run',
                                      ['-a',
                                      __dirname + '/node_modules/nodewebkit/nodewebkit/nw',
-                                     'nw-app',
+                                     __dirname + 'nw-app',
                                      '-p ' + port,
                                      '-h ' + host]);
 
